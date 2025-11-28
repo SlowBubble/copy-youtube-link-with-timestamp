@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "copy-youtube-link",
+  "version": "1.0",
+  "description": "Copy current YouTube page URL with Alt+C (works only on youtube.com)",
+  "icons": {
+    "16": "favicon-16x16.png",
+    "32": "favicon-32x32.png",
+    "128": "android-chrome-128x128.png"
+  },
+  "action": {
+    "default_title": "copy-youtube-link"
+  }
+}
