@@ -10,6 +10,5 @@ Installation (developer mode):
 
 Usage:
 - Navigate to any page on `youtube.com`.
-- Press Alt+C (hold Alt and press C). The current page URL will be copied to your clipboard.
-
-
+- Press Cmd+C (Mac) or Ctrl+C (Windows/Linux) with no text selected. The current page URL (with timestamp if video is playing) will be copied to your clipboard.
+- If you have text selected, Cmd+C/Ctrl+C will copy the selected text as normal.

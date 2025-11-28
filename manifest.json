@@ -10,5 +10,12 @@
   },
   "action": {
     "default_title": "copy-youtube-link"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["clipboardWrite"]
 }
