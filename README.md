@@ -1,31 +1,52 @@
 # copy-youtube-link
 
-Chrome extension that copies the current YouTube page URL to the clipboard when you press Alt+C. The extension runs only on `youtube.com` pages.
+Chrome extension for managing YouTube video timestamps and segments. The extension runs only on `youtube.com` pages.
 
-Installation (developer mode):
+## Installation (developer mode):
 
 1. Open Chrome and go to chrome://extensions
 2. Enable "Developer mode"
 3. Click "Load unpacked" and select this repository folder
 
-Usage:
-- Navigate to any page on `youtube.com`.
-- Press Cmd+C (Mac) or Ctrl+C (Windows/Linux) with no text selected. The current page URL (with timestamp if video is playing) will be copied to your clipboard.
-- If you have text selected, Cmd+C/Ctrl+C will copy the selected text as normal.
+## Features:
 
-# m2a
-- Cmd+V is pressed when the focus is on the body and not on an input: instead of copying the url to the clipboard,
-  - Pause the video if it is playing
-  - Open a text prompt to enter a name
-  - After getting the text, store the data into local storage (the format is documented below)
-- The local storage will store the data in the following format:
-  - key is "copy-youtube-link"
-  - value is a JSON string consisting of a list that you append objects to. The object will have
-    - `name`: the name you entered
-    - `url`: the url (without the timestamp info)
-    - `startMs`: the current time of the video in whole number in milliseconds unit
-    - `endMs`: set it to 7000ms + startMs initially
-- `v` is pressed when the focus is on the body and not on an input: update the endMs of the last object to the current video time but only if the object's url matches with the url of the current video.
-- Add the following to the extension menu
-  - Copy the JSON list string (pretty format, indented 2 spaces)
-  - Clear the JSON (setting it to an empty list)
+### Copy URL with Timestamp
+- Press **Cmd+C** (Mac) or **Ctrl+C** (Windows/Linux) with no text selected
+- Copies the current YouTube URL with timestamp to clipboard
+- If text is selected, normal copy behavior is preserved
+
+### Save Video Segments
+- Press **Cmd+V** (Mac) or **Ctrl+V** (Windows/Linux) when not focused on an input field
+- Pauses the video if playing
+- Opens a prompt to enter a name for the segment
+- Saves the segment with current timestamp to local storage
+
+### Update Segment End Time
+- Press **v** when not focused on an input field
+- Updates the end time of the last saved segment for the current video
+- Only works if there's a matching segment for the current video URL
+
+### Extension Menu
+Click the extension icon to access:
+- **Copy JSON Data**: Copies all saved segments as formatted JSON (2-space indentation)
+- **Clear All Data**: Removes all saved segments after confirmation
+
+## Data Format
+
+Segments are stored in localStorage with key `"copy-youtube-link"` as a JSON array:
+
+```json
+[
+  {
+    "name": "Introduction",
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "startMs": 15000,
+    "endMs": 22000
+  }
+]
+```
+
+- `name`: User-provided name for the segment
+- `url`: Clean YouTube URL without timestamp parameters
+- `startMs`: Start time in milliseconds
+- `endMs`: End time in milliseconds (initially startMs + 7000ms)
