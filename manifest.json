@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "copy-youtube-link",
   "version": "1.4",
-  "description": "Copy and bookmark YouTube URL with the timestamp via Cmd+C and Cmd+V",
+  "description": "Copy and bookmark YouTube URL with the timestamp via Cmd+C and s/d keys",
   "icons": {
     "16": "favicon-16x16.png",
     "32": "favicon-32x32.png",
@@ -18,5 +18,5 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["clipboardWrite", "storage", "scripting", "activeTab"]
+  "permissions": ["clipboardWrite", "scripting", "activeTab"]
 }

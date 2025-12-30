@@ -46,8 +46,8 @@ document.addEventListener('keydown', (event) => {
     }
   }
 
-  // Handle Cmd+V (Mac) or Ctrl+V (Windows/Linux)
-  if ((event.metaKey || event.ctrlKey) && (event.key === 'v' || event.key === 'V') && !isInputFocused) {
+  // Handle 's' key press for saving video segment
+  if (event.key === 's' && !isInputFocused && !event.metaKey && !event.ctrlKey) {
     event.preventDefault();
     event.stopPropagation();
     
@@ -70,11 +70,10 @@ document.addEventListener('keydown', (event) => {
         video.play();
       }
     }
-    return; // Important: return here to prevent 'v' key handler from running
   }
 
-  // Handle 'v' key press (only if not Cmd+V or Ctrl+V)
-  if (event.key === 'v' && !isInputFocused && !event.metaKey && !event.ctrlKey) {
+  // Handle 'd' key press for updating segment end time
+  if (event.key === 'd' && !isInputFocused && !event.metaKey && !event.ctrlKey) {
     event.preventDefault();
     event.stopPropagation();
     

@@ -16,13 +16,13 @@ Chrome extension for managing YouTube video timestamps and segments. The extensi
 - If text is selected, normal copy behavior is preserved
 
 ### Save Video Segments
-- Press **Cmd+V** (Mac) or **Ctrl+V** (Windows/Linux) when not focused on an input field
+- Press **s** when not focused on an input field
 - Pauses the video if playing
 - Opens a prompt to enter a name for the segment
 - Saves the segment with current timestamp to local storage
 
 ### Update Segment End Time
-- Press **v** when not focused on an input field
+- Press **d** when not focused on an input field
 - Updates the end time of the last saved segment for the current video
 - Only works if there's a matching segment for the current video URL
 
@@ -50,3 +50,12 @@ Segments are stored in localStorage with key `"copy-youtube-link"` as a JSON arr
 - `url`: Clean YouTube URL without timestamp parameters
 - `startMs`: Start time in milliseconds
 - `endMs`: End time in milliseconds (initially startMs + 7000ms)
+
+## Permissions
+
+The extension requires the following permissions:
+
+- **`clipboardWrite`**: Allows copying URLs and JSON data to the clipboard when using Cmd+C or the "Copy All" button
+- **`storage`**: Enables access to localStorage for saving and retrieving video segments on YouTube pages
+- **`scripting`**: Required for the popup to execute scripts on the active YouTube tab to read/modify segment data
+- **`activeTab`**: Grants access to the currently active tab to interact with YouTube videos and localStorage
