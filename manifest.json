@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "copy-youtube-link",
-  "version": "1.4",
+  "version": "1.5",
   "description": "Copy and bookmark YouTube URL with the timestamp via Cmd+C and s/d keys",
   "icons": {
     "16": "favicon-16x16.png",
