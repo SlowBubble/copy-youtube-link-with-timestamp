@@ -61,14 +61,8 @@ document.addEventListener('keydown', (event) => {
         video.pause();
       }
       
-      // Open text prompt to enter a name
-      const name = prompt('Enter a name for this video segment:');
-      if (name && name.trim()) {
-        saveVideoSegment(name.trim(), video.currentTime, wasPlaying);
-      } else if (wasPlaying) {
-        // Resume playing if user cancelled and video was playing
-        video.play();
-      }
+      // Show custom modal for segment name
+      showSegmentNameModal(video.currentTime, wasPlaying);
     }
   }
 
@@ -241,5 +235,177 @@ style.textContent = `
       opacity: 0;
     }
   }
+
+  .segment-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .segment-modal {
+    background: #1f1f1f;
+    border: 2px solid #065fd4;
+    border-radius: 8px;
+    padding: 24px;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+
+  .segment-modal h3 {
+    color: #fff;
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .segment-modal input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #0f0f0f;
+    color: #fff;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .segment-modal input:focus {
+    outline: none;
+    border-color: #065fd4;
+    box-shadow: 0 0 0 2px rgba(6, 95, 212, 0.2);
+  }
+
+  .segment-modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    justify-content: flex-end;
+  }
+
+  .segment-modal-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .segment-modal-button.primary {
+    background: #065fd4;
+    color: #fff;
+  }
+
+  .segment-modal-button.primary:hover {
+    background: #0856c7;
+  }
+
+  .segment-modal-button.secondary {
+    background: #333;
+    color: #fff;
+  }
+
+  .segment-modal-button.secondary:hover {
+    background: #444;
+  }
+
+  .segment-modal-hint {
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 8px;
+  }
 `;
 document.head.appendChild(style);
+
+// Show custom modal for segment name input
+function showSegmentNameModal(currentTime, wasPlaying) {
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'segment-modal-overlay';
+  
+  // Create modal
+  const modal = document.createElement('div');
+  modal.className = 'segment-modal';
+  
+  // Create modal content
+  modal.innerHTML = `
+    <h3>Save Video Segment</h3>
+    <input type="text" id="segmentNameInput" placeholder="Enter segment name..." maxlength="100">
+    <div class="segment-modal-hint">Press Enter to save or Esc to cancel</div>
+    <div class="segment-modal-buttons">
+      <button class="segment-modal-button secondary" id="cancelBtn">Cancel</button>
+      <button class="segment-modal-button primary" id="saveBtn">Save</button>
+    </div>
+  `;
+  
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  
+  // Get elements
+  const input = modal.querySelector('#segmentNameInput');
+  const saveBtn = modal.querySelector('#saveBtn');
+  const cancelBtn = modal.querySelector('#cancelBtn');
+  
+  // Focus input
+  input.focus();
+  
+  // Handle save
+  function handleSave() {
+    const name = input.value.trim();
+    if (name) {
+      saveVideoSegment(name, currentTime, wasPlaying);
+      closeModal();
+    } else {
+      input.focus();
+    }
+  }
+  
+  // Handle cancel
+  function handleCancel() {
+    if (wasPlaying) {
+      const video = document.querySelector('video');
+      if (video) {
+        video.play();
+      }
+    }
+    closeModal();
+  }
+  
+  // Close modal
+  function closeModal() {
+    document.body.removeChild(overlay);
+  }
+  
+  // Event listeners
+  saveBtn.addEventListener('click', handleSave);
+  cancelBtn.addEventListener('click', handleCancel);
+  
+  // Keyboard handling
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSave();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      handleCancel();
+    }
+  });
+  
+  // Close on overlay click
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      handleCancel();
+    }
+  });
+}
